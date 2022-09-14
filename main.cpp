@@ -207,7 +207,7 @@ void check_win()
 void who_start()
 {
     srand(time(NULL));
-    if((rand() % 2)==0) //wynik 0 albo 1
+    if((rand() % 2)==0) // 0 or 1
     {
         who ='O';
     }
@@ -306,4 +306,7 @@ int main()
 
     play_game();
 
+    //timer
+    //zliczanie wygranych
+    //muzyka
 }
