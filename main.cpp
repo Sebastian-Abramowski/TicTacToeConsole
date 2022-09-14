@@ -2,12 +2,16 @@
 #include <iomanip>
 #include <stdlib.h> //in order to use system("cls")
 #include <conio.h> //getch() - it doesnt need enter unlike normal getchar()
-#include <windows.h> //sleep()
+#include <windows.h> //Sleep()
 using namespace std;
 
 char board[9];
 char who;
 int where;
+char win;
+char question;
+int dont_show_board = 1;
+
 
 void show_board()
 {
@@ -42,7 +46,11 @@ void default_values_board()
 
 void one_move()
 {
-    show_board();
+    if(dont_show_board==1)
+    {
+        show_board();
+    }
+
     cout<<"\n Where do you want to put your mark (enter a number from 1 to 9): ";
     cin>>where;
 
@@ -56,6 +64,7 @@ void one_move()
         else
         {
             cout<<"This place is already taken! Try again!\n";
+            dont_show_board=0;
             one_move();
         }
         break;
@@ -67,7 +76,9 @@ void one_move()
         else
         {
             cout<<"This place is already taken! Try again!\n";
+            dont_show_board=0;
             one_move();
+
         }
         break;
     case 3:
@@ -78,6 +89,7 @@ void one_move()
         else
         {
             cout<<"This place is already taken! Try again!\n";
+            dont_show_board=0;
             one_move();
         }
         break;
@@ -89,6 +101,7 @@ void one_move()
         else
         {
             cout<<"This place is already taken! Try again!\n";
+            dont_show_board=0;
             one_move();
         }
         break;
@@ -100,6 +113,7 @@ void one_move()
         else
         {
             cout<<"This place is already taken! Try again!\n";
+            dont_show_board=0;
             one_move();
         }
         break;
@@ -111,6 +125,7 @@ void one_move()
         else
         {
             cout<<"This place is already taken! Try again!\n";
+            dont_show_board=0;
             one_move();
         }
         break;
@@ -122,6 +137,7 @@ void one_move()
         else
         {
             cout<<"This place is already taken! Try again!\n";
+            dont_show_board=0;
             one_move();
         }
         break;
@@ -133,6 +149,7 @@ void one_move()
         else
         {
             cout<<"This place is already taken! Try again!\n";
+            dont_show_board=0;
             one_move();
         }
         break;
@@ -144,11 +161,13 @@ void one_move()
         else
         {
             cout<<"This place is already taken! Try again!\n";
+            dont_show_board=0;
             one_move();
         }
         break;
     default:
         cout<<"Wrong number! Try again!\n";
+        dont_show_board=0;
         one_move();
     }
 
@@ -162,11 +181,8 @@ void check_win()
       ((board[3]==board[4]&&board[4]==board[5])&&(board[3]!='-'))||
       ((board[6]==board[7]&&board[7]==board[8])&&(board[6]!='-')))
     {
-        cout<<who<<" won\n";
-        show_board();
-        Sleep(3000);
-        exit(0);
-
+        //cout<<who<<" won\n";
+        win = who;
     }
 
     //check vertical
@@ -174,10 +190,8 @@ void check_win()
       ((board[1]==board[4]&&board[4]==board[7])&&(board[1]!='-'))||
       ((board[2]==board[5]&&board[5]==board[8])&&(board[2]!='-')))
     {
-        cout<<who<<" won\n";
-        show_board();
-        Sleep(3000);
-        exit(0);
+        //cout<<who<<" won\n";
+        win = who;
 
     }
 
@@ -185,11 +199,8 @@ void check_win()
     if(((board[0]==board[4]&&board[4]==board[8])&&(board[0]!='-'))||
       ((board[2]==board[4]&&board[4]==board[6])&&(board[2]!='-')))
     {
-        cout<<who<<" won\n";
-        show_board();
-        Sleep(3000);
-        exit(0);
-
+        //cout<<who<<" won\n";
+        win = who;
     }
 }
 
@@ -208,13 +219,15 @@ void who_start()
 
 void play_game()
 {
+    win = 'n';
     int round=1;
     system("cls");
     default_values_board();
     who_start();
 
-    while((check_win!='O')&&(check_win!='X')&&(round<=9))
+    while((win!='O')&&(win!='X')&&(round<=9))
     {
+        //header
         cout<<"Round number "<<round<<endl;
         if(who=='O')
         {
@@ -225,8 +238,50 @@ void play_game()
             cout<<"TURN: X\n";
         }
 
+
+        //Putting a mark on the board
+        dont_show_board = 1;
         one_move();
+
+        //checking win
         check_win();
+        if((win == who)||round==9)
+        {
+            system("cls");
+            cout<<"Round number "<<round<<endl;
+            show_board();
+            if((win=='X')||(win=='O'))
+            {
+                cout<<endl<<who<<" has won!";
+            }
+            else if(round==9)
+            {
+                cout<<endl<<"The match has ended in a draw";
+            }
+
+            cout<<endl<<"Do you want to play again? 'y' or 'n'";
+            cin>>question;
+            if(question=='y')
+            {
+                Sleep(1000);
+                play_game();
+            }
+            else if(question=='n')
+            {
+                system("cls");
+                cout<<":(";
+                Sleep(250);
+                exit(0);
+            }
+            else
+            {
+                system("cls");
+                cout<<"I will take it as no";
+                Sleep(250);
+                exit(0);
+            }
+        }
+
 
         //changing turn and adding one round
         if(who=='O')
@@ -237,7 +292,6 @@ void play_game()
         {
             who = 'O';
         }
-
         round++;
         system("cls");
     }
