@@ -3,7 +3,7 @@
 #include <stdlib.h> //in order to use system("cls")
 #include <conio.h> //getch() - it doesnt need enter unlike normal getchar()
 #include <windows.h> //Sleep() //PlaySound
-#include <ctime>
+#include <ctime> //clock_t
 
 using namespace std;
 
@@ -321,7 +321,4 @@ int main()
     getch();
 
     play_game();
-
-    //zliczanie wygranych
-    //muzyka
 }
