@@ -2,8 +2,9 @@
 #include <iomanip>
 #include <stdlib.h> //in order to use system("cls")
 #include <conio.h> //getch() - it doesnt need enter unlike normal getchar()
-#include <windows.h> //Sleep()
+#include <windows.h> //Sleep() //PlaySound
 #include <ctime>
+
 using namespace std;
 
 char board[9];
@@ -311,6 +312,10 @@ void play_game()
 
 int main()
 {
+    //music
+    PlaySound(TEXT("Ziuu.wav"), NULL, SND_FILENAME | SND_ASYNC | SND_LOOP);
+
+
     how_to_play();
     cout<<"\n\x1B[32mPress any key to continue...\033[0m\t\t";
     getch();
