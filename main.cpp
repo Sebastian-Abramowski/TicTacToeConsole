@@ -3,6 +3,7 @@
 #include <stdlib.h> //in order to use system("cls")
 #include <conio.h> //getch() - it doesnt need enter unlike normal getchar()
 #include <windows.h> //Sleep()
+#include <ctime>
 using namespace std;
 
 char board[9];
@@ -11,6 +12,7 @@ int where;
 char win;
 char question;
 int dont_show_board = 1;
+clock_t start, stop;
 
 
 void show_board()
@@ -221,6 +223,12 @@ void play_game()
 {
     win = 'n';
     int round=1;
+
+    if(round==1)
+    {
+        start = clock();
+    }
+
     system("cls");
     default_values_board();
     who_start();
@@ -253,33 +261,36 @@ void play_game()
             if((win=='X')||(win=='O'))
             {
                 cout<<endl<<who<<" has won!";
+                cout<<endl<<"\n\x1B[32m"<<who<<" has won\033[0m\t\t";
+                stop = clock();
             }
             else if(round==9)
             {
-                cout<<endl<<"The match has ended in a draw";
+                cout<<endl<<"\n\x1B[32mThe match has ended in a draw\033[0m\t\t";
+                stop = clock();
             }
+            cout<<endl<<"The match lasted "<<(stop-start)/(double)CLOCKS_PER_SEC<<" seconds.";
 
-            cout<<endl<<"Do you want to play again? 'y' or 'n'";
-            cin>>question;
-            if(question=='y')
+            Sleep(2000);
+            cout<<endl<<"Do you want to play again? 'y' or 'n': ";
+
+            do
             {
-                Sleep(1000);
-                play_game();
+                cin>>question;
+                if(question=='y')
+                {
+                    Sleep(1000);
+                    play_game();
+                }
+                else if(question=='n')
+                {
+                    system("cls");
+                    cout<<":(";
+                    Sleep(500);
+                    exit(0);
+                }
             }
-            else if(question=='n')
-            {
-                system("cls");
-                cout<<":(";
-                Sleep(250);
-                exit(0);
-            }
-            else
-            {
-                system("cls");
-                cout<<"I will take it as no";
-                Sleep(250);
-                exit(0);
-            }
+            while(question!='y'&&question!='n');
         }
 
 
@@ -306,7 +317,6 @@ int main()
 
     play_game();
 
-    //timer
     //zliczanie wygranych
     //muzyka
 }
